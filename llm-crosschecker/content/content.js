@@ -239,17 +239,26 @@ function createLimitPanel(response) {
 function injectVerifyButton(responseEl) {
   if (responseEl.dataset.llmCheckerInjected === "true") return;
 
-  // Guard against duplicate buttons when multiple selectors match elements
-  // inside the same assistant message (e.g. .markdown AND .prose siblings)
+  // Walk up ancestors to check if any container for this message was already
+  // processed. We mark containers with data-llm-checker-done at injection time,
+  // so this catches cases where two different nested elements belong to the same
+  // message (e.g. [class*="font-claude"] matching both outer and inner divs).
+  let node = responseEl.parentNode;
+  while (node && node !== document.body) {
+    if (node.dataset && node.dataset.llmCheckerDone === "true") return;
+    node = node.parentNode;
+  }
+
+  // Find the best named container to mark, so all children of this message
+  // are covered by a single marker going forward.
   const messageContainer =
     responseEl.closest('[data-message-author-role="assistant"]') ||
     responseEl.closest('[data-testid="assistant-message"]') ||
-    responseEl.closest(".model-response-text") ||
     responseEl.closest("[data-response-id]") ||
     responseEl.closest("message-content") ||
     responseEl.parentNode;
-  if (messageContainer && messageContainer.querySelector(".llm-checker-wrapper")) return;
 
+  messageContainer.dataset.llmCheckerDone = "true";
   responseEl.dataset.llmCheckerInjected = "true";
 
   const btn = createVerifyButton();
