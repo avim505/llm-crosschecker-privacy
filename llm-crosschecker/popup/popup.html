@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LLM Cross-Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="popup-container">
+
+  <div class="popup-header">
+    <span class="popup-logo">🔍</span>
+    <div>
+      <div class="popup-title">LLM Cross-Checker</div>
+      <div class="popup-subtitle" id="planBadge">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Free tier usage -->
+  <div id="freeUsageSection" class="popup-section" style="display:none;">
+    <div class="popup-section-title">This Month</div>
+    <div class="usage-display">
+      <div class="usage-bar-wrap">
+        <div class="usage-bar-fill" id="usageBarFill"></div>
+      </div>
+      <div class="usage-text" id="usageText"></div>
+    </div>
+    <button class="btn-upgrade" id="upgradeBtn">
+      ⚡ Upgrade to Pro — $4.99/month
+    </button>
+    <div class="upgrade-features">
+      <div>✓ Unlimited checks</div>
+      <div>✓ All 4 AI models</div>
+      <div>✓ Full bias detection</div>
+      <div>✓ 14-day free trial</div>
+    </div>
+  </div>
+
+  <!-- Pro status -->
+  <div id="proSection" class="popup-section" style="display:none;">
+    <div class="pro-badge">⚡ Pro Plan Active</div>
+    <div class="pro-features">
+      <div>✓ Unlimited checks</div>
+      <div>✓ All 4 AI models active</div>
+      <div>✓ Full bias detection</div>
+    </div>
+    <div id="totalChecks" class="total-checks"></div>
+  </div>
+
+  <!-- BYOK Section -->
+  <div class="popup-section">
+    <div class="popup-section-title">Bring Your Own API Keys</div>
+    <div class="popup-description">
+      Use your own keys — pay only $1.99/month for the extension software
+    </div>
+
+    <div id="byokForm">
+      <div class="byok-input-group">
+        <label>Anthropic (Claude)</label>
+        <input type="password" id="byok-anthropic" placeholder="sk-ant-..." />
+      </div>
+      <div class="byok-input-group">
+        <label>OpenAI (GPT-4o)</label>
+        <input type="password" id="byok-openai" placeholder="sk-proj-..." />
+      </div>
+      <div class="byok-input-group">
+        <label>Google (Gemini)</label>
+        <input type="password" id="byok-gemini" placeholder="AIza..." />
+      </div>
+      <div class="byok-input-group">
+        <label>Cohere</label>
+        <input type="password" id="byok-cohere" placeholder="your-key..." />
+      </div>
+      <button class="btn-byok-save" id="saveBYOKBtn">Save Keys</button>
+      <div id="byokStatus" class="byok-status"></div>
+    </div>
+
+    <div id="byokActive" style="display:none;">
+      <div class="byok-active-badge">✓ Using your own API keys</div>
+      <button class="btn-byok-remove" id="removeBYOKBtn">Remove Keys</button>
+    </div>
+  </div>
+
+  <div class="popup-footer">
+    <span id="footerStatus">Active on ChatGPT and Claude</span>
+  </div>
+
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
