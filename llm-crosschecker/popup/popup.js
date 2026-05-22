@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadUserStatus();
   setupBYOK();
   setupUpgradeButton();
+  setupAutoCheckToggle();
 });
 
 async function loadUserStatus() {
@@ -94,6 +95,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupBYOK();
   setupUpgradeButton();
 });
+
+function setupAutoCheckToggle() {
+  const toggle = document.getElementById("autoCheckToggle");
+  if (!toggle) return;
+
+  // Load saved value
+  chrome.storage.sync.get(["autoCheck"], (settings) => {
+    toggle.checked = settings.autoCheck === true;
+  });
+
+  // Persist on change — content script reacts via chrome.storage.onChanged
+  toggle.addEventListener("change", () => {
+    chrome.storage.sync.set({ autoCheck: toggle.checked });
+  });
+}
 
 function setupBYOK() {
   const saveBtn = document.getElementById("saveBYOKBtn");

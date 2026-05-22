@@ -321,3 +321,29 @@ input:checked + .toggle-slider::after {
   font-weight: 600;
   margin-bottom: 8px;
 }
+
+/* Settings rows */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.setting-info {
+  flex: 1;
+}
+
+.setting-name {
+  font-size: 13px;
+  color: #c9d1d9;
+  font-weight: 500;
+}
+
+.setting-desc {
+  font-size: 11px;
+  color: #8b949e;
+  margin-top: 2px;
+  line-height: 1.4;
+}

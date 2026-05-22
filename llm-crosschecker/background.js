@@ -120,7 +120,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               "x-install-id": installId,
             },
             body: JSON.stringify({
-              text: message.text.slice(0, 4000),
+              text: message.text.slice(0, 10000),
               installId: installId,
               paid: user.paid,
             }),
