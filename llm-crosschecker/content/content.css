@@ -76,6 +76,7 @@
 .llm-checker-topic-legal    { color: #a371f7; border-color: #a371f7; background: rgba(163,113,247,0.1); }
 .llm-checker-topic-finance  { color: #3fb950; border-color: #3fb950; background: rgba(63,185,80,0.1); }
 .llm-checker-topic-history  { color: #ffa657; border-color: #ffa657; background: rgba(255,166,87,0.1); }
+.llm-checker-topic-general  { color: #8b949e; border-color: #8b949e; background: rgba(139,148,158,0.1); }
 
 .llm-checker-close {
   background: none;

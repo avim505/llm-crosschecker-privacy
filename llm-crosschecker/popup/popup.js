@@ -122,13 +122,17 @@ function setupBYOK() {
         openaiKey: document.getElementById("byok-openai").value.trim(),
         geminiKey: document.getElementById("byok-gemini").value.trim(),
         cohereKey: document.getElementById("byok-cohere").value.trim(),
+        groqKey: document.getElementById("byok-groq").value.trim(),
+        deepseekKey: document.getElementById("byok-deepseek").value.trim(),
       };
 
       if (
         !keys.anthropicKey &&
         !keys.openaiKey &&
         !keys.geminiKey &&
-        !keys.cohereKey
+        !keys.cohereKey &&
+        !keys.groqKey &&
+        !keys.deepseekKey
       ) {
         document.getElementById("byokStatus").textContent =
           "Please enter at least one API key";

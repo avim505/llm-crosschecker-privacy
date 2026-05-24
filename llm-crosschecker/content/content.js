@@ -19,6 +19,9 @@ console.log("Is Gemini:", SITE.isGemini);
 // ── Auto-check setting (loaded from storage, updated via onChanged) ───────────
 let autoCheckEnabled = false;
 
+// ── Page-load guard — prevents auto-checking responses that existed on load ───
+let pageLoadComplete = false;
+
 // ── Selectors — multiple fallbacks for each platform ─────────────────────────
 const SELECTORS = {
   chatgpt: [
@@ -264,7 +267,7 @@ function createResultsPanel(data) {
     <div class="llm-checker-header">
       <span class="llm-checker-logo">🔍</span>
       <span class="llm-checker-title">LLM Cross-Checker Results</span>
-      ${topic && topic !== "general" ? `<span class="llm-checker-topic-badge llm-checker-topic-${topic}">${topic}</span>` : ""}
+      ${topic ? `<span class="llm-checker-topic-badge llm-checker-topic-${topic}">${topic}</span>` : ""}
       <button class="llm-checker-close">✕</button>
     </div>
 
@@ -295,7 +298,7 @@ function createResultsPanel(data) {
     <div class="llm-checker-footer">
       <span>
         Checked ${results.filter((r) => !r.error && !r.locked).length} of ${results.length} models
-        ${plan === "free" ? ' — <a href="#" id="upgradeFooter" style="color:#58a6ff;">Upgrade for all 4 models</a>' : ""}
+        ${plan === "free" ? ' — <a href="#" id="upgradeFooter" style="color:#58a6ff;">Upgrade for all 6 models</a>' : ""}
       </span>
       <button class="llm-checker-copy-btn" id="copyReportBtn">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -558,29 +561,27 @@ function runVerify(responseEl, wrapper, btn, isAuto) {
   );
 }
 
-// ── Watch a response element and auto-check when streaming stops ──────────────
-// Uses two timers:
-//   noMutationTimer — if no DOM changes fire within 800ms, the element was
-//     already complete before we observed it (pre-existing response on page
-//     load). Disconnect silently so we don't blast the API on navigation.
-//   idleTimer — resets on every mutation; fires 2s after the last change,
-//     meaning streaming has settled. Triggers runVerify automatically.
-function watchForStreamEnd(responseEl, wrapper, btn) {
+// ── Watch a response element until streaming settles, then call onDone ───────
+// Two code paths:
+//   • Mutations seen → idleTimer fires 1500ms after last change → onDone()
+//   • No mutations in 600ms → element was already complete → onDone() immediately
+// onDone is always called exactly once.
+function watchUntilStreamEnd(responseEl, onDone) {
   let idleTimer = null;
-  let noMutationTimer = null;
   let hasSeenMutation = false;
+  let done = false;
+
+  function finish() {
+    if (done) return;
+    done = true;
+    streamObs.disconnect();
+    onDone();
+  }
 
   const streamObs = new MutationObserver(() => {
-    if (!hasSeenMutation) {
-      hasSeenMutation = true;
-      clearTimeout(noMutationTimer);
-    }
+    hasSeenMutation = true;
     clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => {
-      streamObs.disconnect();
-      // Only run if no check is already in progress
-      if (!btn.disabled) runVerify(responseEl, wrapper, btn, true);
-    }, 2000);
+    idleTimer = setTimeout(finish, 1500);
   });
 
   streamObs.observe(responseEl, {
@@ -589,10 +590,10 @@ function watchForStreamEnd(responseEl, wrapper, btn) {
     characterData: true,
   });
 
-  // Pre-existing response guard: disconnect after 800ms if still no mutations
-  noMutationTimer = setTimeout(() => {
-    if (!hasSeenMutation) streamObs.disconnect();
-  }, 800);
+  // Element was already fully rendered before we started watching
+  setTimeout(() => {
+    if (!hasSeenMutation) finish();
+  }, 600);
 }
 
 // ── Inject verify button into a response element ──────────────────────────────
@@ -631,8 +632,13 @@ function injectVerifyButton(responseEl) {
   // Manual click always runs verify
   btn.addEventListener("click", () => runVerify(responseEl, wrapper, btn, false));
 
-  // Auto-check: watch for stream end and trigger automatically
-  if (autoCheckEnabled) watchForStreamEnd(responseEl, wrapper, btn);
+  // Auto-check: stream is already settled when injectVerifyButton is called,
+  // so just trigger verify directly (small delay for DOM to fully stabilize).
+  if (autoCheckEnabled && pageLoadComplete) {
+    setTimeout(() => {
+      if (!btn.disabled) runVerify(responseEl, wrapper, btn, true);
+    }, 300);
+  }
 }
 
 // ── Scan page for AI responses ────────────────────────────────────────────────
@@ -646,17 +652,38 @@ function scanForResponses() {
   for (const selector of selectorList) {
     const responses = document.querySelectorAll(selector);
     if (responses.length > 0) {
-      let injected = 0;
+      let found = 0;
       responses.forEach((el) => {
         const text = el.innerText || el.textContent || "";
         if (text.trim().length > 20) {
-          injectVerifyButton(el);
-          injected++;
+          // Already injected or being watched — count it so we still break
+          if (
+            el.dataset.llmCheckerInjected === "true" ||
+            el.dataset.llmCheckerWatching === "true"
+          ) {
+            found++;
+            return;
+          }
+          // Skip if an ancestor is already handled or being watched
+          let node = el.parentNode;
+          while (node && node !== document.body) {
+            if (
+              node.dataset &&
+              (node.dataset.llmCheckerDone === "true" ||
+                node.dataset.llmCheckerWatching === "true")
+            )
+              return;
+            node = node.parentNode;
+          }
+          // Mark as watching and wait for stream to settle before injecting
+          el.dataset.llmCheckerWatching = "true";
+          watchUntilStreamEnd(el, () => injectVerifyButton(el));
+          found++;
         }
       });
-      if (injected > 0) {
+      if (found > 0) {
         console.log(
-          `LLM Checker: injected ${injected} button(s) using selector: ${selector}`,
+          `LLM Checker: watching ${found} response(s) using selector: ${selector}`,
         );
         break;
       }
@@ -694,5 +721,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 loadAutoCheckSetting();
 
-// Initial scan
+// Initial scan — mark page load complete 1s after the scan so the auto-check
+// guard only fires for responses that arrive after the page has settled.
 setTimeout(scanForResponses, 1000);
+setTimeout(() => { pageLoadComplete = true; }, 2000);
