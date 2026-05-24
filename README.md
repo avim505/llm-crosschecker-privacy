@@ -4,7 +4,7 @@ This repository hosts the privacy policy for the
 LLM Cross-Checker Chrome Extension.
 
 ## Live Policy
-https://avim505.github.io/llm-crosschecker-privacy
+[https://avim505.github.io/llm-crosschecker-privacy](https://github.com/avim505/llm-crosschecker-privacy)
 
 ## Extension
 Available on the Chrome Web Store:
