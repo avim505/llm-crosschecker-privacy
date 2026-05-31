@@ -1,6 +1,7 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>LLM Cross-Checker Privacy Policy</title>
     <style>
       body {
@@ -9,52 +10,308 @@
         margin: 40px auto;
         padding: 0 20px;
         line-height: 1.6;
-      }
-      h1 {
         color: #333;
       }
+      h1 { color: #111; }
+      h2 {
+        color: #333;
+        margin-top: 2em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 4px;
+      }
+      h3 { color: #444; margin-top: 1.4em; }
+      ul { padding-left: 20px; }
+      li { margin-bottom: 6px; }
+      p { margin-bottom: 12px; }
+      .last-updated { color: #666; font-style: italic; }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 16px 0;
+        font-size: 0.95em;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        text-align: left;
+      }
+      th { background: #f5f5f5; font-weight: bold; }
+      a { color: #0066cc; }
     </style>
   </head>
   <body>
-    <h1>Privacy Policy — LLM Cross-Checker</h1>
-    <p>Last updated: May 2026</p>
-    PRIVACY POLICY — LLM Cross-Checker Chrome Extension Last updated: May 2026
-    1. INTRODUCTION LLM Cross-Checker ("we", "our", or "the extension") is a
-    Chrome browser extension that verifies AI responses across multiple AI
-    models. This policy explains what data we collect and how we use it. 2.
-    INFORMATION WE COLLECT Anonymous Install ID We generate a random anonymous
-    identifier when you install the extension. This is used solely to track your
-    monthly usage count for the free tier limit. It contains no personal
-    information. Usage Statistics We collect the number of cross-checks you
-    perform each month and in total. This is used to enforce free tier limits
-    and display your usage in the extension popup. Email Address If you
-    subscribe to a paid plan, your email address is collected by ExtensionPay
-    and Stripe for payment processing. We do not store your email address on our
-    own servers. API Keys (BYOK users only) If you choose to use the Bring Your
-    Own Key feature and voluntarily provide your own API keys, these are stored
-    securely in our database and used only to make API calls on your behalf. You
-    can delete them at any time. 3. AI RESPONSE TEXT When you activate
-    Cross-Check, the text of the AI response is temporarily sent to our server
-    and then to third-party AI providers for verification. This text is NOT
-    stored and is discarded immediately after verification completes. 4.
-    THIRD-PARTY SERVICES We share data with the following services: - Anthropic
-    (Claude API) — AI verification - OpenAI (GPT API) — AI verification - Google
-    (Gemini API) — AI verification - Cohere — AI verification - ExtensionPay —
-    payment processing - Stripe — payment processing - MongoDB Atlas — database
-    hosting - Render.com — server hosting Each service has its own privacy
-    policy governing their use of data. 5. DATA WE DO NOT COLLECT We do not
-    collect: - Your name or physical address - Your browsing history or pages
-    visited - Your original prompts or questions to AI tools - Location data -
-    Device information - Any data from websites other than ChatGPT and Claude 6.
-    DATA RETENTION - Anonymous usage data is kept while your account is active -
-    AI response text is never stored - Payment data is managed by ExtensionPay
-    and Stripe - You can request deletion of all your data at any time 7.
-    CHILDREN'S PRIVACY This extension is not intended for users under 13 years
-    of age. We do not knowingly collect data from children. 8. YOUR RIGHTS You
-    may request deletion of your data at any time by contacting us at:
-    YOUR_EMAIL_HERE 9. CHANGES TO THIS POLICY We may update this policy
-    occasionally. Continued use of the extension after changes constitutes
-    acceptance of the updated policy. 10. CONTACT For privacy questions contact:
-    support@webcoreagency.ca
+    <h1>Privacy Policy &#8212; LLM Cross-Checker</h1>
+    <p class="last-updated">Last updated: May 2026</p>
+
+    <h2>1. Introduction</h2>
+    <p>
+      LLM Cross-Checker ("we", "our", or "the extension") is a Chrome browser
+      extension that verifies AI-generated responses across multiple AI models
+      for accuracy and bias detection. This Privacy Policy explains what data we
+      collect, how we use and store it, who we share it with, and your rights
+      regarding your data.
+    </p>
+
+    <h2>2. Data We Collect</h2>
+
+    <h3>2.1 Anonymous Install ID</h3>
+    <p>
+      When you install the extension we automatically generate a random
+      anonymous identifier (for example: <code>llmc_1234567890_abc123</code>).
+      This ID contains no personal information whatsoever. It is used solely to:
+    </p>
+    <ul>
+      <li>Track your monthly usage count for the free tier limit (10 checks/month)</li>
+      <li>Link any stored BYOK API keys to your installation</li>
+      <li>Display your usage statistics in the extension popup</li>
+    </ul>
+
+    <h3>2.2 Usage Statistics</h3>
+    <p>
+      We record the number of cross-checks you perform each month and your
+      lifetime total. This is used to enforce free tier limits and to display
+      your usage count in the popup. Monthly counts are automatically reset at
+      the start of each calendar month.
+    </p>
+
+    <h3>2.3 Email Address (paid subscribers only)</h3>
+    <p>
+      If you subscribe to a paid plan, your email address is collected and
+      stored by ExtensionPay and Stripe for subscription and payment processing.
+      We do not store your email address on our own servers.
+    </p>
+
+    <h3>2.4 API Keys &#8212; BYOK Users Only</h3>
+    <p>
+      If you choose to use the Bring Your Own Key (BYOK) feature, you may
+      voluntarily provide your own API keys for one or more of the supported AI
+      providers (Anthropic, OpenAI, Google, Cohere, Groq, DeepSeek). These keys
+      are:
+    </p>
+    <ul>
+      <li>Stored securely in our database (MongoDB Atlas) with access controls</li>
+      <li>Used exclusively to make AI verification API calls on your behalf</li>
+      <li>Never shared with any party other than the respective API provider when making a call</li>
+      <li>Removable at any time directly from the extension popup without contacting us</li>
+    </ul>
+
+    <h3>2.5 AI Response Text (temporary, never stored)</h3>
+    <p>
+      When you activate Cross-Check, the text of the AI response you are
+      verifying is temporarily transmitted to our server and forwarded to
+      third-party AI providers for verification. This text is
+      <strong>never written to any database or log</strong> and is discarded
+      from memory immediately after verification completes.
+    </p>
+
+    <h2>3. How We Use Your Data</h2>
+    <ul>
+      <li>
+        <strong>Anonymous Install ID</strong> &#8212; enforcing free tier monthly
+        limits; associating BYOK keys with your installation
+      </li>
+      <li>
+        <strong>Usage statistics</strong> &#8212; displaying your usage in the
+        popup; enforcing plan limits
+      </li>
+      <li>
+        <strong>Email (via ExtensionPay / Stripe)</strong> &#8212; subscription
+        billing and account management only
+      </li>
+      <li>
+        <strong>BYOK API keys</strong> &#8212; routing your verification requests
+        through your own API provider accounts
+      </li>
+      <li>
+        <strong>AI response text</strong> &#8212; performing the cross-check
+        verification; immediately discarded after use
+      </li>
+    </ul>
+    <p>
+      We do not use any collected data for advertising, user profiling, or
+      selling to third parties.
+    </p>
+
+    <h2>4. Data Storage</h2>
+    <ul>
+      <li>
+        <strong>Anonymous install IDs and usage statistics</strong> are stored in
+        MongoDB Atlas, a cloud-hosted database service located in the United States
+      </li>
+      <li>
+        <strong>BYOK API keys</strong> are stored in MongoDB Atlas with restricted
+        access controls
+      </li>
+      <li>
+        <strong>AI response text</strong> is never written to disk or any database
+        &#8212; it is processed in server memory and immediately discarded
+      </li>
+      <li>
+        <strong>Payment and subscription data</strong> is stored by ExtensionPay
+        and Stripe on their own secured infrastructure, governed by their respective
+        privacy policies
+      </li>
+    </ul>
+
+    <h2>5. Data Sharing and Third-Party Services</h2>
+    <p>
+      We share data with the following services only as strictly necessary to
+      provide the extension's functionality:
+    </p>
+    <table>
+      <tr>
+        <th>Service</th>
+        <th>Purpose</th>
+        <th>Data Shared</th>
+      </tr>
+      <tr>
+        <td>Anthropic (Claude API)</td>
+        <td>AI response verification</td>
+        <td>AI response text (temporary, not stored)</td>
+      </tr>
+      <tr>
+        <td>OpenAI (GPT-4o API)</td>
+        <td>AI response verification</td>
+        <td>AI response text (temporary, not stored)</td>
+      </tr>
+      <tr>
+        <td>Google (Gemini API)</td>
+        <td>AI response verification</td>
+        <td>AI response text (temporary, not stored)</td>
+      </tr>
+      <tr>
+        <td>Cohere API</td>
+        <td>AI response verification</td>
+        <td>AI response text (temporary, not stored)</td>
+      </tr>
+      <tr>
+        <td>Groq API</td>
+        <td>AI response verification</td>
+        <td>AI response text (temporary, not stored)</td>
+      </tr>
+      <tr>
+        <td>DeepSeek API</td>
+        <td>AI response verification</td>
+        <td>AI response text (temporary, not stored)</td>
+      </tr>
+      <tr>
+        <td>Brave Search API</td>
+        <td>Web search grounding for fact-checking</td>
+        <td>First 150 characters of response text (temporary)</td>
+      </tr>
+      <tr>
+        <td>ExtensionPay</td>
+        <td>Subscription management</td>
+        <td>Email address, payment status</td>
+      </tr>
+      <tr>
+        <td>Stripe</td>
+        <td>Payment processing</td>
+        <td>Email address, payment details</td>
+      </tr>
+      <tr>
+        <td>MongoDB Atlas</td>
+        <td>Database hosting</td>
+        <td>Anonymous install ID, usage counts, BYOK API keys</td>
+      </tr>
+      <tr>
+        <td>Render.com</td>
+        <td>Backend server hosting</td>
+        <td>API traffic processed in memory only; no persistent storage</td>
+      </tr>
+    </table>
+    <p>
+      Each service operates under its own privacy policy. We do not sell your
+      data to any party under any circumstances.
+    </p>
+
+    <h2>6. Data We Do Not Collect</h2>
+    <p>We explicitly do not collect:</p>
+    <ul>
+      <li>Your name, physical address, or phone number</li>
+      <li>Your browsing history or URLs of pages you visit</li>
+      <li>Your original prompts or questions submitted to AI tools</li>
+      <li>Location or GPS data</li>
+      <li>Device identifiers or hardware information</li>
+      <li>Any data from websites other than ChatGPT, Claude.ai, and Gemini</li>
+      <li>Cookies or tracking pixels</li>
+    </ul>
+
+    <h2>7. Data Retention</h2>
+    <ul>
+      <li>
+        <strong>Usage statistics</strong> &#8212; retained while your installation
+        is active; monthly check counts are automatically reset each calendar month
+      </li>
+      <li>
+        <strong>AI response text</strong> &#8212; never retained; discarded
+        immediately after verification completes
+      </li>
+      <li>
+        <strong>BYOK API keys</strong> &#8212; retained until you remove them via
+        the popup or submit a deletion request to us
+      </li>
+      <li>
+        <strong>Payment data</strong> &#8212; managed and retained by ExtensionPay
+        and Stripe according to their own retention policies
+      </li>
+    </ul>
+
+    <h2>8. Your Rights</h2>
+    <p>You have the following rights regarding your data:</p>
+    <ul>
+      <li>
+        <strong>Access</strong> &#8212; request a copy of all data associated with
+        your anonymous install ID
+      </li>
+      <li>
+        <strong>Deletion</strong> &#8212; request permanent deletion of all data
+        associated with your installation at any time
+      </li>
+      <li>
+        <strong>Remove BYOK keys</strong> &#8212; delete your stored API keys
+        instantly from the extension popup without needing to contact us
+      </li>
+      <li>
+        <strong>Opt out</strong> &#8212; uninstall the extension at any time; no
+        data collection occurs after uninstall
+      </li>
+    </ul>
+    <p>
+      To exercise your access or deletion rights, contact us at:
+      <a href="mailto:support@webcoreagency.ca">support@webcoreagency.ca</a>
+    </p>
+
+    <h2>9. Children's Privacy</h2>
+    <p>
+      This extension is not directed at or intended for children under 13 years
+      of age. We do not knowingly collect any data from children. If you believe
+      a child has provided data to us, please contact us immediately at
+      <a href="mailto:support@webcoreagency.ca">support@webcoreagency.ca</a> and
+      we will delete it promptly.
+    </p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. When we do, the "Last
+      updated" date at the top of this page will be revised. Continued use of the
+      extension after any changes constitutes your acceptance of the updated
+      policy. For material changes, we will make reasonable efforts to notify
+      users through the extension or the Chrome Web Store listing.
+    </p>
+
+    <h2>11. Contact</h2>
+    <p>For privacy questions, data access requests, or deletion requests:</p>
+    <ul>
+      <li>
+        <strong>Email:</strong>
+        <a href="mailto:support@webcoreagency.ca">support@webcoreagency.ca</a>
+      </li>
+      <li><strong>Developer:</strong> Avinesh Mohanaranjan, WebCore Agency</li>
+      <li>
+        <strong>Website:</strong>
+        <a href="https://webcoreagency.ca" target="_blank" rel="noopener noreferrer">webcoreagency.ca</a>
+      </li>
+    </ul>
   </body>
 </html>
